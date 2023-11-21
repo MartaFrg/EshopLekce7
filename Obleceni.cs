@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,22 +11,30 @@ namespace EshopLekce7
     internal class Obleceni
     {
         static public double marze;
-        internal String barva;
-        internal Velikost velikost;
+        static internal int kod = 1;
+        public int kodObleceni;
+        public string barva;
         internal int cenaNakup;
         public int sleva;
-        public int naskladnenoKusu;
-        public Obleceni(int cenaNakup, Velikost velikost, String barva) 
+        public Dictionary<Obleceni.Velikost, int> naskladnenoKusu;
+        public double cenaProdej;
+        public Obleceni(int cenaNakup, string barva) 
         { 
             this.cenaNakup = cenaNakup;
-            this.velikost = velikost; 
             this.barva = barva;
+            kodObleceni = kod++;
+            cenaProdej = cenaNakup * marze;
+            this.naskladnenoKusu = new Dictionary<Velikost, int>();
         }
-        public int naskladni(int pocetKusu)
+        public void Naskladni()
         {
-            naskladnenoKusu = naskladnenoKusu + pocetKusu;
-            penezVKase = 
-            return naskladnenoKusu;
+            int pocet;
+            foreach (Velikost velikost in Enum.GetValues(typeof(Velikost)))
+            {
+                Console.Write("Zadej počet kusů velikosti {0}: ", velikost);
+                while (!int.TryParse(Console.ReadLine(), out pocet)) Console.WriteLine("Zadej počet kusů v celém čísle.");
+                this.naskladnenoKusu.Add(velikost, pocet);
+            }
         }
         public enum Velikost
         {
