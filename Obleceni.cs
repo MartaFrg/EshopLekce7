@@ -18,13 +18,15 @@ namespace EshopLekce7
         public int sleva;
         public Dictionary<Obleceni.Velikost, int> naskladnenoKusu;
         public double cenaProdej;
-        public Obleceni(int cenaNakup, string barva) 
-        { 
+        public Obleceni(int cenaNakup, string barva)
+        {
             this.cenaNakup = cenaNakup;
             this.barva = barva;
             kodObleceni = kod++;
             cenaProdej = cenaNakup * marze;
-            this.naskladnenoKusu = new Dictionary<Velikost, int>();
+            this.naskladnenoKusu = new Dictionary<Velikost, int>() {
+                { Obleceni.Velikost.XS, 0 } ,{Obleceni.Velikost.S, 0 },{Obleceni.Velikost.M, 0 }, {Obleceni.Velikost.L, 0 }, {Obleceni.Velikost.XL, 0 }, {Obleceni.Velikost.XXL, 0 }, {Obleceni.Velikost.XXXL, 0 }
+                };
         }
         public void Naskladni()
         {

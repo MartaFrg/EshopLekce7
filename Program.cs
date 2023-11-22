@@ -17,13 +17,6 @@ namespace EshopLekce7
             Obleceni.marze = 1.5;
             sklad = new List<Obleceni>(); 
             sklad.Add(new Triko(150, "modrá", true, true));
-            sklad.Last().naskladnenoKusu.Add(Obleceni.Velikost.XS, 0);
-            sklad.Last().naskladnenoKusu.Add(Obleceni.Velikost.S, 0);
-            sklad.Last().naskladnenoKusu.Add(Obleceni.Velikost.M, 0);
-            sklad.Last().naskladnenoKusu.Add(Obleceni.Velikost.L, 0);
-            sklad.Last().naskladnenoKusu.Add(Obleceni.Velikost.XL, 0);
-            sklad.Last().naskladnenoKusu.Add(Obleceni.Velikost.XXL, 0);
-            sklad.Last().naskladnenoKusu.Add(Obleceni.Velikost.XXXL, 0);
             VyberMenu();
         }
         static void VyberMenu()
