@@ -16,7 +16,7 @@ namespace EshopLekce7
             penezVKase = 10000;
             Obleceni.marze = 1.5;
             sklad = new List<Obleceni>(); 
-            sklad.Add(new Triko(150, "modrá", true, true));
+            //sklad.Add(new Triko());
             VyberMenu();
         }
         static void VyberMenu()
@@ -28,32 +28,42 @@ namespace EshopLekce7
             switch (volba)
             {
                 case 1:
+                    Obleceni obleceni;
                     Console.WriteLine("Zadej nové zboží:\n");
-                    PridejObleceni();
-                    sklad.Last().Naskladni();
+                    Console.WriteLine("Zadej druh oblečení: \n 1) Bunda \n 2) Kalhoty \n 3) Triko \n 4) Zpět");
+                    while (!int.TryParse(Console.ReadLine(), out volba) || (volba < 1) || (volba > 4)) Console.WriteLine("Zadej číslo od 1 do 4.");
+                    switch (volba)
+                    {
+                        case 1:
+                            obleceni = new Bunda();
+                            obleceni.PridejObleceni();
+                            sklad.Add(obleceni);
+                            break;
+                        case 2:
+                            obleceni = new Kalhoty();
+                            obleceni.PridejObleceni();
+                            sklad.Add(obleceni);
+                            break;
+                        case 3:
+                            obleceni = new Triko();
+                            obleceni.PridejObleceni();
+                            sklad.Add(obleceni);
+                            break;
+                        case 4:
+                            break;
+                    }
                     break;
+
                 case 2:
                     Console.WriteLine("Zboží v databázi:\n");
                     Console.WriteLine(sklad[0].kodObleceni);
                     String druhObleceni;
-                    foreach (Obleceni obleceni in sklad)
+                    foreach (Obleceni item in sklad)
                     {
-                        druhObleceni = obleceni.GetType().Name;
-                        Console.Write("{0:D6} - {1}, prodejní cena: {2} Kč, barva: {3}, ", obleceni.kodObleceni, druhObleceni, obleceni.cenaProdej, obleceni.barva);
-                        switch (druhObleceni)
-                        {
-                            case "Bunda":
-                                Console.WriteLine("typ bundy: {0}, zapínání na {1}", ((Bunda)obleceni).typBundy, ((Bunda)obleceni).zapinani);
-                                break;
-                            case "Triko":
-                                Console.WriteLine("{0} dlouhý rukáv, {1} obrázek", VratMaNema(((Triko)obleceni).dlouhyRukav), VratMaNema(((Triko)obleceni).obrazekNaTriku));
-                                break;
-                            case "Kalhoty":
-                                Console.WriteLine("střih kalhot: {0}, délka nohavic je {1}", ((Kalhoty)obleceni).strih, ((Kalhoty)obleceni).delkaNohavic);
-                                break;
-                        }
+                        druhObleceni = item.GetType().Name;
+                        Console.WriteLine(item.Vypis());
                         Console.Write("Počet kusů: ");
-                        foreach (KeyValuePair<Obleceni.Velikost, int> pocet in obleceni.naskladnenoKusu) { Console.Write(pocet.Key + " " + pocet.Value + "ks, "); }
+                        foreach (KeyValuePair<Obleceni.Velikost, int> pocet in item.naskladnenoKusu) { Console.Write(pocet.Key + " " + pocet.Value + "ks, "); }
                         Console.WriteLine();
                     }
                     break;
@@ -77,69 +87,7 @@ namespace EshopLekce7
             }
             VyberMenu();
         }
-        public static void PridejObleceni()
-        {
-            int volba;
-            string barva;
-            int cena;
-            string reakce;
-            Console.WriteLine("Zadej druh oblečení: \n 1) Bunda \n 2) Kalhoty \n 3) Triko \n 4) Zpět");
-            while (!int.TryParse(Console.ReadLine(), out volba) || (volba < 1) || (volba > 4)) Console.WriteLine("Zadej číslo od 1 do 4.");
-            switch (volba)
-            {
-                case 1:
-                    string typBundy;
-                    Bunda.Zapinani zapinani;
-                    Console.Write("Nová položka bunda, zadej nákupní cenu: ".PadLeft(40));
-                    while (!int.TryParse(Console.ReadLine(), out cena) || (cena < 0)) Console.WriteLine("Zadej cenu nákupu v celém kladném čísle.");
-                    Console.Write("zadej barvu: ".PadLeft(40));
-                    barva = Console.ReadLine();
-                    Console.Write("zadej typ bundy: ".PadLeft(40));
-                    typBundy = (Console.ReadLine());
-                    Console.Write("Zadej typ zapínání z=zip, k=knoflíky: ".PadLeft(40));
-                    while (!(reakce = Console.ReadLine()).Equals("k") && !reakce.Equals("z")) Console.WriteLine("Zadej \"k\" nebo \"z\".");
-                    if (reakce.Equals("k")) zapinani = Bunda.Zapinani.knofliky; else zapinani = Bunda.Zapinani.zip;
-                    sklad.Add(new Bunda(cena,barva,typBundy, zapinani));
-                    break;
-                case 2:
-                    string strih;
-                    Kalhoty.DelkaNohavic delkaNohavic;
-                    Console.Write("Nová položka kalhoty, zadej nákupní cenu: ".PadLeft(55));
-                    while (!int.TryParse(Console.ReadLine(), out cena) || (cena < 0)) Console.WriteLine("Zadej cenu nákupu v celém kladném čísle.");
-                    Console.Write("zadej barvu: ".PadLeft(55));
-                    barva = Console.ReadLine();
-                    Console.Write("zadej střih kalhot: ".PadLeft(55));
-                    strih = Console.ReadLine();
-                    Console.Write("Zadej délku nohavic s=standartní, k=krátké, d=dlouhé: ".PadLeft(55));
-                    while (!(reakce = Console.ReadLine()).Equals("s") && !reakce.Equals("k") && !reakce.Equals("d")) Console.WriteLine("Zadej \"s\" nebo \"k\" nebo \"d\".");
-                    if (reakce.Equals("s")) delkaNohavic = Kalhoty.DelkaNohavic.standard; else if (reakce.Equals("k")) delkaNohavic = Kalhoty.DelkaNohavic.kratke; else delkaNohavic = Kalhoty.DelkaNohavic.dlouhe;
-                    sklad.Add(new Kalhoty(cena, barva, strih, delkaNohavic));
-                    break;
-                case 3:
-                    bool dlouhyRukav;
-                    bool obrazekNaTriku;
-                    Console.Write("Nová položka triko, zadej nákupní cenu: ".PadLeft(40));
-                    while (!int.TryParse(Console.ReadLine(), out cena) || (cena < 0)) Console.WriteLine("Zadej cenu nákupu v celém kladném čísle.");
-                    Console.Write("zadej barvu: ".PadLeft(40));
-                    barva = Console.ReadLine();
-                    Console.Write("Má triko dlouhý rukáv? (a/n): ".PadLeft(40));
-                    dlouhyRukav = ReakceAnoNe();
-                    Console.Write("Má triko obrázek? (a/n): ".PadLeft(40));
-                    obrazekNaTriku = ReakceAnoNe();
-                    sklad.Add(new Triko(cena, barva, dlouhyRukav, obrazekNaTriku));
-                    break;
-                case 4:
-                    break;
-            }
-        }
-        public static string VratMaNema(bool test) {
-            if (test) return "má"; else return "nemá";
-                    }
-        public static bool ReakceAnoNe()
-        {
-            string reakce;
-            while (!(reakce = Console.ReadLine()).Equals("a") && !reakce.Equals("n")) Console.WriteLine("Zadej \"a\"=ano anebo \"n\"=ne.");
-            if (reakce.Equals("a")) return true; else return false;
-        }
+
+
     }
 }

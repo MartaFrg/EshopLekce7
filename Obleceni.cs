@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace EshopLekce7
 {
 
-    internal class Obleceni
+    internal abstract class Obleceni
     {
         static public double marze;
         static internal int kod = 1;
@@ -17,17 +17,17 @@ namespace EshopLekce7
         internal int cenaNakup;
         public int sleva;
         public Dictionary<Obleceni.Velikost, int> naskladnenoKusu;
-        public double cenaProdej;
-        public Obleceni(int cenaNakup, string barva)
+        public Obleceni()
         {
-            this.cenaNakup = cenaNakup;
-            this.barva = barva;
+            this.cenaNakup = 0;
+            this.barva = "";
             kodObleceni = kod++;
-            cenaProdej = cenaNakup * marze;
             this.naskladnenoKusu = new Dictionary<Velikost, int>() {
                 { Obleceni.Velikost.XS, 0 } ,{Obleceni.Velikost.S, 0 },{Obleceni.Velikost.M, 0 }, {Obleceni.Velikost.L, 0 }, {Obleceni.Velikost.XL, 0 }, {Obleceni.Velikost.XXL, 0 }, {Obleceni.Velikost.XXXL, 0 }
                 };
         }
+        public abstract void PridejObleceni();
+
         public void Naskladni()
         {
             int pocet;
@@ -35,9 +35,16 @@ namespace EshopLekce7
             {
                 Console.Write("Zadej počet kusů velikosti {0}: ", velikost);
                 while (!int.TryParse(Console.ReadLine(), out pocet)) Console.WriteLine("Zadej počet kusů v celém čísle.");
-                this.naskladnenoKusu.Add(velikost, pocet);
+                naskladnenoKusu[velikost]+= pocet;
             }
         }
+        public double CenaProdej()
+        {
+            return cenaNakup*marze;
+        }
+
+
+
         public enum Velikost
         {
             XS,S,M,L,XL,XXL,XXXL
