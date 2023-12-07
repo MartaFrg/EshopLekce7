@@ -31,7 +31,7 @@ namespace EshopLekce7
 
         public override string Vypis()
         {
-            return $"{kodObleceni:D6} - {GetType().Name}, prodejní cena: {CenaProdej()} Kč, barva: {barva}, {VratMaNema(dlouhyRukav)} dlouhý rukáv, {VratMaNema(obrazekNaTriku)} obrázek";
+            return base.Vypis()+$", {VratMaNema(dlouhyRukav)} dlouhý rukáv, {VratMaNema(obrazekNaTriku)} obrázek";
         }
         public static string VratMaNema(bool test)
         {

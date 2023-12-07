@@ -27,7 +27,7 @@ namespace EshopLekce7
 
         public override string Vypis()
         {
-            return $"{kodObleceni:D6} - {GetType().Name}, prodejní cena: {CenaProdej()} Kč, barva: {barva}, typ bundy: {typBundy}, zapínání na {zapinani}";
+            return base.Vypis()+$", typ bundy: {typBundy}, zapínání na {zapinani}";
         }
 
         public enum Zapinani

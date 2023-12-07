@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using static EshopLekce7.Bunda;
 
 namespace EshopLekce7
 {
@@ -42,8 +43,10 @@ namespace EshopLekce7
         {
             return cenaNakup*marze;
         }
-
-
+        public virtual string Vypis()
+        {
+            return $"{kodObleceni:D6} - {GetType().Name}, prodejní cena: {CenaProdej()} Kč, barva: {barva}";
+        }
 
         public enum Velikost
         {
